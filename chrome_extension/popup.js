@@ -10,7 +10,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var Password = document.getElementById('lpassword');
 
-    var Mapplet = document.getElementById('lapplet').setTest(2);
+    //var Mapplet = document.getElementById('lapplet').setTest(2);
+
+    var truc = document.lapplet.setTest(2);
 
     //document.write(Mapplet);
 
