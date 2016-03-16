@@ -2,13 +2,14 @@
   <head>
     <title>Mon plugin</title>
     <script src="popup.js"></script>
+    <script  src="socket.io-client/socket.io.js"></script>
   </head>
   <body>
     <h4>Recup Username and Password</h4>
 
-     <applet name="lapplet" code="testApplet.class" 
-     scriptable='true'></applet>
-     
+    <applet id="yolo" 
+     code="HelloWorld.class"></applet>
+
     <form name="formulaire_badass">
     	
     	Utilisateur<br>
@@ -20,6 +21,16 @@
     	
     	<input id="lpassword" type="password" name="password"
     	value="haha"><br>
+
+    	IP Token<br>
+
+    	<input id="lip" type="text" name="ip"
+    	value="127.0.0.1"><br>
+
+    	Port<br>
+
+    	<input id="lport" type="text" name="port"
+    	value="8080"><br>
     	
     	<button id="checkPage">Recup somethings now!</button>
 

@@ -10,21 +10,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var Password = document.getElementById('lpassword');
 
-    //var Mapplet = document.getElementById('lapplet').setTest(2);
+    var IP = document.getElementById('lip');  
 
-    var truc = document.lapplet.setTest(2);
+    var Port = document.getElementById('lport'); 
 
-    //document.write(Mapplet);
+    //var parametre = new String(IP.value+":"+Port.value);
 
-    //var resultat = Mapplet.test;
+    var socket = io.connect('http://'+IP.value+':'+Port.value);
 
-    //var bonjour = document.lapplet.test;
+    //var socket = require('socket.io').connect("http://127.0.0.1:8080");
 
-    //document.write(resultat);      
+    //socket = io.connect("http://127.0.0.1:8080");
+    socket.emit('message', 'Yolo JAJ');
 
-	  document.write(tab.url+"<br>");
+    document.write(tab.url+"<br>");
     document.write(Username.value+"<br>");
-    document.write(Password.value);
+    document.write(Password.value+"<br>");
+    document.write(IP.value);
     
     });
   }, false);
