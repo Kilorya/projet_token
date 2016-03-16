@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     //var parametre = new String(IP.value+":"+Port.value);
 
-    var socket = io.connect('http://'+IP.value+':'+Port.value);
+    var socket = io.connect('http://'+IP.value+':'+Port.value, {secure: true});
 
     //var socket = require('socket.io').connect("http://127.0.0.1:8080");
 
