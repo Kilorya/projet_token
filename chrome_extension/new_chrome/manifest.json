@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+  "name": "Client TCP",
+  "description": "On va voir ça",
+  "version": "2.0",
+
+  "app": {
+    "background": {
+      "scripts": ["main2.js"]
+    },
+    "sandbox": {
+      "pages": ["page.html"]
+    }
+  },
+  "sockets": {
+    "tcp": {
+      "send": ["*"],
+      "connect": ["*"]
+    }
+  }
+}
