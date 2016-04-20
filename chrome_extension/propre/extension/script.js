@@ -14,8 +14,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var Hurl = tab.url;
 
-    document.write(Haddress);
-
     var message = {
         url: Hurl,
         address: Haddress,
@@ -30,8 +28,22 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             console.log('Reply from app: ', result);
         }
+        jattend();
     });
     
     });
   }, false);
 }, false);
+
+function jattend()
+{
+    chrome.runtime.onMessageExternal.addListener(
+    function(message, sender, sendResponse) {
+
+      var blob = new Blob([message.blob], {type: message.filetype});
+
+      document.write(message.string);
+
+      sendResponse('Processed file');
+    });
+}

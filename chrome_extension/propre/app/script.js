@@ -9,12 +9,17 @@ chrome.runtime.onMessageExternal.addListener(
 
     sendResponse('Processed file');
 
-    send(message.address, message.port, message.url);
+    //send(message.address, message.port, message.url);
+    sendextension("Bonjour");
+
 });
 
-chrome.sockets.tcp.onReceive.addListener(function(recvInfo) {
-    document.getElementById("untexte").innerHTML = "RECU :" + ab2str(recvInfo.data);
-});
+function recep(){
+	chrome.sockets.tcp.onReceive.addListener(function(recvInfo) {
+    	document.getElementById("untexte").innerHTML = "RECU :" + ab2str(recvInfo.data);
+    	sendextension(ab2str(recvInfo.data));
+	});
+}
 
 function send(laddress, leport, ledata){
 
@@ -24,11 +29,31 @@ function send(laddress, leport, ledata){
     chrome.sockets.tcp.connect(MaSocket,
     laddress, parseInt(leport, 10), function(){
       chrome.sockets.tcp.send(MaSocket, str2ab(ledata), function(){
-    })
+    });
     var socketId;
   	chrome.sockets.tcpServer.create({}, function(createInfo) {
       listenAndAccept(createInfo.socketId);
   });
+  });
+  });
+}
+
+function sendextension(str){
+
+    var message = {
+        string: str
+    };
+
+    var laserExtensionId = "jdbfodaemkpodjhlpofbccpmjpajebcc";
+
+	chrome.runtime.sendMessage(laserExtensionId, message, function(result) {
+        if (chrome.runtime.lastError) {
+            console.warn('Error: ' + chrome.runtime.lastError.message);
+        } else {
+            console.log('Reply from app: ', result);
+        }
+    });
+    i++;
 }
 
 
