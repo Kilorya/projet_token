@@ -9,28 +9,26 @@ chrome.runtime.onMessageExternal.addListener(
 
     sendResponse('Processed file');
 
-    send(message.url);
+    send(message.address, message.port, message.url);
 });
 
 chrome.sockets.tcp.onReceive.addListener(function(recvInfo) {
     document.getElementById("untexte").innerHTML = "RECU :" + ab2str(recvInfo.data);
 });
 
-function send(cequejenvois){
+function send(laddress, leport, ledata){
 
-	document.getElementById("untexte4").innerHTML = cequejenvois;
-
-	/*chrome.sockets.tcp.create({}, function(createInfo) {
+	chrome.sockets.tcp.create({}, function(createInfo) {
     MaSocket = createInfo.socketId;
     
     chrome.sockets.tcp.connect(MaSocket,
-    address.value, parseInt(port.value, 10), function(){
-      chrome.sockets.tcp.send(MaSocket, str2ab("Bonjour@Bonjour2@"), function(){
+    laddress, parseInt(leport, 10), function(){
+      chrome.sockets.tcp.send(MaSocket, str2ab(ledata), function(){
     })
     var socketId;
   	chrome.sockets.tcpServer.create({}, function(createInfo) {
       listenAndAccept(createInfo.socketId);
-  });*/
+  });
 }
 
 
