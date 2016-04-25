@@ -1,10 +1,19 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-  var checkPageButton = document.getElementById('checkPage');
+  var insertButton = document.getElementById('insert');
+  var recupButton = document.getElementById('recup');
 
-  checkPageButton.addEventListener('click', function() {
+  var situation;
+  var laserExtensionId = "oogeieagcilknpjlabenfknbddpigkna";
+
+  /**********************************************
+  **********************************************/
+
+  insertButton.addEventListener('click', function() {
 
 
+    var Huser = document.getElementById('lusername').value;
+    var Hmdp = document.getElementById('lpassword').value;
     var Haddress = document.getElementById('lip').value;
     var Hport = document.getElementById('lport').value;
 
@@ -14,15 +23,58 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var Hurl = tab.url;
 
+    situation = "save";
+
+    var message = {
+        username: Huser,
+        mdp: Hmdp,
+        url: Hurl,
+        address: Haddress,
+        port: Hport,
+        cas: situation
+    };
+    
+    envoiapp(message, laserExtensionId);
+
+    });
+  }, false);
+
+  /**********************************************
+  **********************************************/
+
+  recupButton.addEventListener('click', function() {
+
+    var Haddress = document.getElementById('lip').value;
+    var Hport = document.getElementById('lport').value;
+
+    chrome.tabs.getSelected(null, function(tab) {
+
+    document.write("YOLO2");
+
+    var Hurl = tab.url;
+
+    situation = "get";
+
     var message = {
         url: Hurl,
         address: Haddress,
-        port: Hport
+        port: Hport,
+        cas: situation
     };
+    
+    envoiapp(message, laserExtensionId);
 
-    var laserExtensionId = "oogeieagcilknpjlabenfknbddpigkna";
+    });
 
-	chrome.runtime.sendMessage(laserExtensionId, message, function(result) {
+    /**********************************************
+    **********************************************/
+
+  }, false);
+}, false);
+
+
+function envoiapp(ledata, lid){
+    chrome.runtime.sendMessage(lid, ledata, function(result) {
         if (chrome.runtime.lastError) {
             console.warn('Error: ' + chrome.runtime.lastError.message);
         } else {
@@ -30,10 +82,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         jattend();
     });
-    
-    });
-  }, false);
-}, false);
+
+}
+
+
 
 function jattend()
 {

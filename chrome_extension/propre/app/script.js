@@ -9,12 +9,16 @@ chrome.runtime.onMessageExternal.addListener(
 
     sendResponse('Processed file');
 
-    var chaine = "GET*"+message.url+"*EOF@";
+    if(message.cas == "save")
+        var chaine = "SAVE*"+message.url+";"+message.username+";"+message.mdp+"*EOF@";
+    else
+    	var chaine = "GET*"+message.url+"*EOF@";
+
+    document.getElementById("untexte4").innerHTML = chaine;
 
     send(message.address, message.port, chaine);
 
     recep();
-    //sendextension("Bonjour");
 
 });
 
@@ -34,10 +38,7 @@ function send(laddress, leport, ledata){
     laddress, parseInt(leport, 10), function(){
       chrome.sockets.tcp.send(MaSocket, str2ab(ledata), function(){
     });
-   /* var socketId;
-  	chrome.sockets.tcpServer.create({}, function(createInfo) {
-      listenAndAccept(createInfo.socketId);
-  });*/
+   
   });
   });
 }
