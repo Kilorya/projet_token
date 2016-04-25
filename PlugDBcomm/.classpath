@@ -3,6 +3,5 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JDBC"/>
-	<classpathentry kind="lib" path="/Users/Boubou/VM_Cloud/workplace/PlugDBcomm/websocket-ri-archive-1.12/api/javax.websocket-api-1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

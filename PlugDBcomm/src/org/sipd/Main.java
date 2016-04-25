@@ -1,22 +1,22 @@
 package org.sipd;
 
-import JAJ.*;
 import org.types.*;
-import java.io.PrintWriter;
+//import java.io.PrintWriter;
 import java.util.List;
-import org.inria.database.QEPng;
+//import org.inria.database.QEPng;
 import test.jdbc.Tools;
 
 
 public class Main extends Tools 
 {
 	// Variables
-	static public Main projet;
-	static public int compteur ;
+	//static public Main projet;
+	static public int compteur  = 0 ;
+	private StringBuffer buf ;
 	
 	
 	// Fonction d'insertion
-	public static void insertion( String _url, String _log, String _pwd )
+	public boolean insertion( String _url, String _log, String _pwd )
 	{
 		// Variables
 		java.sql.PreparedStatement ps;
@@ -29,7 +29,7 @@ public class Main extends Tools
 			compteur++;
 			
 			// On indique quel méta data il faut utiliser
-			ps = ( (org.inria.jdbc.Connection)projet.db ).prepareStatement( QEP_IDs.EP_Coffre.Coffre_INSERT );
+			ps = ( (org.inria.jdbc.Connection)this.db ).prepareStatement( QEP_IDs.EP_Coffre.Coffre_INSERT );
 			
 			// On bind les paramètres
 			ps.setInt( 1, compteur ); 
@@ -42,14 +42,17 @@ public class Main extends Tools
 		} 
 		catch (Exception e) 
 		{
-			projet.out.println( "Error Insertion, res + " + res + "\n" );
+			this.out.println( "Error Insertion, res + " + res + "\n" );
 			e.printStackTrace();
-		}		
+			return false ;
+		}	
+		
+		return true ;
 	}
 	
 	
 	// Fonction de select : all
-	public static void selection_all()
+	public String selection_all()
 	{
 		// Variables
 		java.sql.PreparedStatement ps;
@@ -58,7 +61,7 @@ public class Main extends Tools
 		try
 		{
 			// On indique quel méta data il faut utiliser
-			ps = ( (org.inria.jdbc.Connection)projet.db ).prepareStatement( QEP_IDs.EP_Coffre.Coffre_SELECT_ALL );
+			ps = ( (org.inria.jdbc.Connection)this.db ).prepareStatement( QEP_IDs.EP_Coffre.Coffre_SELECT_ALL );
 			
 			// On exécute la requête en récupérant le résultat dans un ResultSet
 			org.inria.jdbc.ResultSet resultSet = (org.inria.jdbc.ResultSet) ps.executeQuery();
@@ -69,11 +72,23 @@ public class Main extends Tools
 			// DEBUG
 			System.out.println( "\nEXECUTING QUERY : \" SELECT * FROM Coffre;\"" );
 			
-			// Affichage des tuples
+			// Affichage et récupération des tuples
+			buf = new StringBuffer ( listCoffre.size() * 8 ) ;
+			
 			System.out.println( "\nRow \tIdGlobal \tUrl \t\tLog \t\tPwd" );
 			for( int i = 0; i < listCoffre.size(); i++ )
 			{
 				Coffre tuple = (Coffre) listCoffre.get(i);
+				
+				buf.append ( tuple.getIdGlobal() ) ;
+				buf.append ( "$" ) ;
+				buf.append ( tuple.getUrl() ) ;
+				buf.append ( "$" ) ;
+				buf.append ( tuple.getLog() ) ;
+				buf.append ( "$" ) ;
+				buf.append ( tuple.getPwd() ) ;
+				buf.append ( ";" ) ;
+				
 				System.out.println( i +
 									" \t" + tuple.getIdGlobal() + 
 									" \t" + tuple.getUrl() + 
@@ -84,14 +99,17 @@ public class Main extends Tools
 		} 
 		catch (Exception e) 
 		{
-			projet.out.println( "Error Select All \n" );
+			this.out.println( "Error Select All \n" );
 			e.printStackTrace();
+			return null ;
 		}
+		
+    	return buf.toString() ;
 	}
 	
 	
 	// Fonction de select : logs
-	public static void selection_logs( String _url )
+	public String selection_logs( String _url )
 	{
 		// Variables
 		java.sql.PreparedStatement ps;
@@ -100,7 +118,7 @@ public class Main extends Tools
 		try
 		{
 			// On indique quel méta data il faut utiliser
-			ps = ( (org.inria.jdbc.Connection)projet.db ).prepareStatement( QEP_IDs.EP_Coffre.Coffre_SELECT_LOGS );
+			ps = ( (org.inria.jdbc.Connection)this.db ).prepareStatement( QEP_IDs.EP_Coffre.Coffre_SELECT_LOGS );
 			ps.setString( 1, _url );
 			
 			// On exécute la requête en récupérant le résultat dans un ResultSet
@@ -112,11 +130,19 @@ public class Main extends Tools
 			// DEBUG
 			System.out.println( "\nEXECUTING QUERY : \" SELECT log, pwd FROM Coffre WHERE url = ?;\"" );
 			
-			// Affichage des tuples
+			// Affichage et récupération des tuples
+			buf = new StringBuffer ( listCoffre.size() * 4 ) ;
+						
 			System.out.println( "\nRow \tLog \t\tPwd" );
 			for( int i = 0; i < listCoffre.size(); i++ )
 			{
 				Coffre tuple = (Coffre) listCoffre.get(i);
+				
+				buf.append ( tuple.getLog() ) ;
+				buf.append ( "$" ) ;
+				buf.append ( tuple.getPwd() ) ;
+				buf.append ( ";" ) ;
+				
 				System.out.println( i +
 									" \t" + tuple.getLog() + 
 									" \t\t" + tuple.getPwd() );
@@ -125,13 +151,16 @@ public class Main extends Tools
 		} 
 		catch (Exception e) 
 		{
-			projet.out.println( "Error Select Logs \n" );
+			this.out.println( "Error Select Logs \n" );
 			e.printStackTrace();
+			return null ;
 		}
+		
+		return buf.toString() ;
 	}
 	
 	
-	public static int selection_id( String _url )
+	public int selection_id( String _url )
 	{
 		// Variables
 		java.sql.PreparedStatement ps;
@@ -142,7 +171,7 @@ public class Main extends Tools
 		try
 		{
 			// On indique quel méta data il faut utiliser
-			ps = ( (org.inria.jdbc.Connection)projet.db ).prepareStatement( QEP_IDs.EP_Coffre.Coffre_SELECT_ID );
+			ps = ( (org.inria.jdbc.Connection)this.db ).prepareStatement( QEP_IDs.EP_Coffre.Coffre_SELECT_ID );
 			ps.setString( 1, _url );
 			
 			// On exécute la requête en récupérant le résultat dans un ResultSet
@@ -166,7 +195,7 @@ public class Main extends Tools
 		} 
 		catch (Exception e) 
 		{
-			projet.out.println( "Error Select Id \n" );
+			this.out.println( "Error Select Id \n" );
 			e.printStackTrace();
 		}
 		
@@ -176,7 +205,7 @@ public class Main extends Tools
 	
 	
 	// Fonction de update
-	public static void update( String _url, String _log, String _pwd )
+	public boolean update( String _url, String _log, String _pwd )
 	{
 		// Variables
 		java.sql.PreparedStatement ps;
@@ -186,12 +215,12 @@ public class Main extends Tools
 		try
 		{			
 			// On récupère l'ID associé à l'url
-			int id = selection_id ( _url ) ;
+			int id = this.selection_id ( _url ) ;
 			
 			if ( id != -1 )
 			{
 				// On indique quel méta data il faut utiliser
-				ps = ( (org.inria.jdbc.Connection)projet.db ).prepareStatement( QEP_IDs.EP_Coffre.Coffre_UPDATE );
+				ps = ( (org.inria.jdbc.Connection)this.db ).prepareStatement( QEP_IDs.EP_Coffre.Coffre_UPDATE );
 				
 				// On bind les paramètres
 				ps.setString( 1, _log );
@@ -202,18 +231,21 @@ public class Main extends Tools
 				res = ps.executeUpdate();
 			}
 			else
-				projet.out.println( "Error Update : bad ID \n" );
+				this.out.println( "Error Update : bad ID \n" );
 		} 
 		catch (Exception e) 
 		{
-			projet.out.println( "Error Update, res + " + res + "\n" );
+			this.out.println( "Error Update, res + " + res + "\n" );
 			e.printStackTrace();
+			return false ;
 		}		
+		
+		return true ;
 	}
 	
 	
-	// Fonction d'insertion
-	public static void delete( String _url )
+	// Fonction de suppression
+	public boolean delete( String _url )
 	{
 		// Variables
 		java.sql.PreparedStatement ps;
@@ -228,7 +260,7 @@ public class Main extends Tools
 			if ( id != -1 )
 			{
 				// On indique quel méta data il faut utiliser
-				ps = ( (org.inria.jdbc.Connection)projet.db ).prepareStatement( QEP_IDs.EP_Coffre.Coffre_DELETE );
+				ps = ( (org.inria.jdbc.Connection)this.db ).prepareStatement( QEP_IDs.EP_Coffre.Coffre_DELETE );
 				
 				// On bind les paramètres 
 				ps.setInt( 1, id );
@@ -237,18 +269,21 @@ public class Main extends Tools
 				res = ps.executeUpdate();
 			}
 			else
-				projet.out.println( "Error Delete : bad ID \n" );
+				this.out.println( "Error Delete : bad ID \n" );
 		} 
 		catch (Exception e) 
 		{
-			projet.out.println( "Error Delete, res + " + res + "\n" );
+			this.out.println( "Error Delete, res + " + res + "\n" );
 			e.printStackTrace();
+			return false ;
 		}		
+		
+		return true ;
 	}
 	
 	
 	// Main
-	public static void main(String argv[])
+	/*public static void main(String argv[])
 	{
 		projet = new Main();
 		projet.out = new PrintWriter(java.lang.System.out);
@@ -268,7 +303,7 @@ public class Main extends Tools
 
 		// this not a performance test ==> output is produced:
 		perf = 0;
-		/*
+		
 		try 
 		{
 			
@@ -329,9 +364,8 @@ public class Main extends Tools
 				projet.out.close();
 			}
 		}
-		*/
+		
 		//EchoEndPoint appli_server = new EchoEndPoint () ;
 		//while (true) {}
-		Server appli_server = new Server () ;
-	}
+	}*/
 }

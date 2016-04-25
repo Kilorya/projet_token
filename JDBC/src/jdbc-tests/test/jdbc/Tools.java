@@ -10,8 +10,8 @@ import org.inria.jdbc.DBMSFactory;
 
 public class Tools {
 
-	protected Connection db;
-	protected PrintWriter out;
+	public Connection db;
+	public PrintWriter out;
 	private boolean initialized = false;
 	private byte [] perfs = null;
 	public static int perf = 0;
@@ -469,7 +469,7 @@ public class Tools {
 	Abs:  Init
 
   =============================================================================*/
-	protected void init() throws Exception {
+	public void init() throws Exception {
 		if (initialized) { // fast exit
 		  return;
 		}

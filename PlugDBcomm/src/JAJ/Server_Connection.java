@@ -3,6 +3,7 @@ package JAJ;
 import java.io.IOException ;
 import java.net.ServerSocket ;
 import java.net.Socket ;
+import org.sipd.Main;
 
 
 public class Server_Connection implements Runnable
@@ -11,12 +12,14 @@ public class Server_Connection implements Runnable
     private ServerSocket server_socket = null ;
     private Socket client_socket = null ;
     private Thread client_thread = null ;  
+    private Main token ;
 
     
 	// Constructeur    
-    public Server_Connection ( ServerSocket _server_socket )
+    public Server_Connection ( ServerSocket _server_socket, Main _token )
     {
     	server_socket = _server_socket ;
+    	token = _token ;
     }
     
     // Thread
@@ -32,7 +35,7 @@ public class Server_Connection implements Runnable
                 System.out.println ( "Server : new client" ) ;
                 
                 // Thread : exécute actions en fonction des demandes 	// Autant de thread que de clients
-				client_thread = new Thread ( new Server_Actions ( client_socket ) ) ;
+				client_thread = new Thread ( new Server_Actions ( client_socket, token ) ) ;
 				client_thread.start () ;
 				
         	}
