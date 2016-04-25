@@ -9,8 +9,12 @@ chrome.runtime.onMessageExternal.addListener(
 
     sendResponse('Processed file');
 
-    //send(message.address, message.port, message.url);
-    sendextension("Bonjour");
+    var chaine = "GET*"+message.url+"*EOF@";
+
+    send(message.address, message.port, chaine);
+
+    recep();
+    //sendextension("Bonjour");
 
 });
 
@@ -30,10 +34,10 @@ function send(laddress, leport, ledata){
     laddress, parseInt(leport, 10), function(){
       chrome.sockets.tcp.send(MaSocket, str2ab(ledata), function(){
     });
-    var socketId;
+   /* var socketId;
   	chrome.sockets.tcpServer.create({}, function(createInfo) {
       listenAndAccept(createInfo.socketId);
-  });
+  });*/
   });
   });
 }
@@ -53,7 +57,6 @@ function sendextension(str){
             console.log('Reply from app: ', result);
         }
     });
-    i++;
 }
 
 
