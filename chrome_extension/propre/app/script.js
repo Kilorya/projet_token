@@ -36,14 +36,14 @@ function send(laddress, leport, ledata){
     
     chrome.sockets.tcp.connect(MaSocket,
     laddress, parseInt(leport, 10), function(){
-    	var secureOption = {
+    	/*var secureOption = {
     		tlsVersion: {min: 'ssl3', max: 'tls1.2'}
-    	};
+    	};*/
     	
-    	chrome.sockets.tcp.secure(MaSocket, secureOption, function(){
+    	//chrome.sockets.tcp.secure(MaSocket, secureOption, function(){
 			chrome.sockets.tcp.send(MaSocket, str2ab(ledata), function(){
     		});
-    	});   
+    	//});   
   });
   });
 }
