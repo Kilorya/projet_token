@@ -16,34 +16,48 @@ chrome.runtime.onMessageExternal.addListener(
 
     document.getElementById("untexte4").innerHTML = chaine;
 
-    var key = new RSAKeyPair(
-		// Public exponent extracted from private_key.pem using
-		// openssl rsa -inform PEM -text -noout < private_key.pem
-		// Or extracted from public key PEM file using
-		// openssl rsa -pubin -inform PEM -text -noout < public_key.pem
-		"10001",
-		
-		// Dummy decryption exponent -- actual value only kept on server.
-		"10001",
+   // var pair = generateRSAKeyPair(1024);
 
-		// Modulus extracted from private key PEM file using
-		// openssl rsa -inform PEM -modulus -noout < private_key.pem
-		// Or extracted from public key PEM file using
-		// openssl rsa -pubin -inform PEM -modulus -noout < public_key.pem
-		"EDA017EBA532CD23754813203F4026C78EB9089FB7DA16ABBC5220C87BEC3B3C9684E8181AE8AE56CBAEE40BA5B2778A9BA4B59FF6C4FFFEB086E4BC288CC00E970C4CE0BEFAD7ED23FFD6D86F5B2B400ED11F20CCFF67D9DF6DA8620EE5CA20741265A5AF51AE2EF0B1D3834F3E90D5545D12CA67B629332F349020C9A5789B01BA147870108FC436CEEB401DD0BEADA4E2F0DB6AB6D506E7D0AD1C947FCEF38346E82F6D6048D2683494DE8E515243FD1C750C6E6195436BB6FA1F0E4BF86471AB30B34C2FCEEB1DAE8937C0B8DB265AC1067FF6EC46402AA2853B8D69C157C3B08F165C1976E799801F29FBD18516AAAC3B94901284202DF1E941EB9FB86F",
-		
-		// Key size in bits.
-	 	1024
-	);
+   pem = '-----BEGIN RSA PRIVATE KEY-----MIIEowIBAAKCAQEAz8oe+S3ea7NTVldSroB4RqIBzqV2QP15+CZAdz92M2UP6LQdqRY2NMpuFate2pA8UU80MBBzVaLgFF029h8XVgGOrir4Gj1dPFgNXzbc6hYDITQn5Ffequ0nhi5DmDc9CmpMxXwiQB6oSpS14Uf/qKS7pcBZIMxzgzH4kJE+hwplcfJ8keTQNG8S6pys/pICoRlnSU93lpAitHcJ1oaJ5KlL2To23Ba6jh+CSEYomutGiyeZQuB9JbvakDVpIdxu5zugeIfnF8U+cFXDfmLRzdXl/g7T3+f9nhEN1D4v1UkiR3mE+xPYwqRVP1Rxi460wkI5J+QEV3LIuvtdcaJt4wIDAQABAoIBAFkPrvrqmBzdfejSANReqC7OHawu62Krwm2EJ7l07/rTZGA/Yz8oEA/MfCa5jyxrCg9nvVykkGqyJw1Tbs1LQjtQ65DnRfQpPR8yNnkLEOEckjbXHgoXR49Hmts+VSaW9ojSSxmSPTPyb/uXheWLcJ8eDHfc29bdCt2+u2Vre7txCT6NjsFNEnzw08suOEBt4sVdjCzFpOHe2fXbk2c+KCiDT19vbnrX356Hcad13v0AY4cu7FVws4avO2RMq/9xwJHtXFPFg4qnmqTNZC/aq9+k9G4xcUZMh4BaJRos1GO6fSj/yGDpwfKFbr5iWkjYvzlYI4fm7KexPvQsmxwKPSECgYEA9MBYJGQSH1BkUvZirp34y6MPVn1Y2HYKNMtImEtIyrevsut2JYv7Bj44G43NAWerPv9KrmPkbFdWzlqmGNHPDyCO5DH175WvSK2KXDFcrYcYfzRPgeQ2ipihj+L3mzQfqlIRUlAoowLU1DVJJVVVCuDt/xUNvl/dbY2P07UQsksCgYEA2VblvPeZUFwcPb1FiV8aRSlhagipTiX5ulJWg3QmxJCXUVgTz+Ssn7+NuN6tOVQHNfAy/YhEzSJu3xVHbFhPuII227mxtN5EpWTQrizBEDk+hZTadx07nNzY0DLW3IMiR2yolPEljBIFQzboyaPVc0CuUMjB/+omo4IIzucUs8kCgYA2dvcmYf6GaWVp8NpU8WKELm0jWhGDWgE7bmFhQp+YPPgkYLGR+WyLHx1tREjynxdElZsQ47nZQjZXBWUg8M+bFiu2LEgGYND442V+zp1JIF8bL5Dh3t8kSILreh6PszG4vTqNjrj8TYz/DDySykJ6gUN1GEJOsxabYn03J3vnsQKBgQDIyop3OXzQDDkfJPTQRCeeC+vurU/VXipIY/d/fNiwMzFJOokbQRXmhG8ng7ofw6zhvScuqi1+IzixKxSQWUpVmR+bggRWqB5dezV8JOa82VYUzX/EGiLP+gzo1H9CvHf36sAY0m0w6hkojtskJxN1ZiVlhwQMLcRCvUjr9ftfWQKBgAto1VuXpHnBAb+sGvmZOzGsqlor8kLz1X6OaMdypaDLQkIh4hVJKPriYRQL8OiW9gO1yPnJ0JpUQpUbhvpjXozoRlnTfdbjow7q469e9r12KYJBcktp4YFcKwdgCXgjLDwueFEWT/LVucn4xY/C7nnNO2WshMRVtFQNA/9KN+tl-----END RSA PRIVATE KEY-----';
 
-    chaine_crypt = encryptedString(key, chaine,
-		RSAAPP.PKCS1Padding, RSAAPP.RawEncoding);
+    var private = forge.pki.privateKeyFromPem(pem);
+    //var private = forge.pki.encryptedPrivateKeyFromPem(pem);
+    
+    var pub = forge.pki.setRsaPublicKey(private.n, private.e);
 
-    document.getElementById("untexte5").innerHTML = chaine_crypt;
+    var buffer = forge.util.createBuffer(chaine, 'utf8');
 
-    document.getElementById("untexte6").innerHTML = RSADecrypt(key, chaine_crypt);
+    var binaryString = buffer.getBytes();
 
-    send(message.address, message.port, chaine);
+    /*var encrypted = pub.encrypt(binaryString, 'RSA-OAEP', {
+        md: forge.md.sha256.create(),
+        mgf1: {
+            md: forge.md.sha256.create()
+        }
+    });*/
+
+    var encrypted = pub.encrypt(binaryString);
+
+    //var res = doRSA(chaine, pub);
+
+    document.getElementById("untexte5").innerHTML = encrypted;
+
+    //var nouveau = decryptRSA(res, pair);
+
+    /*var decrypted = private.decrypt(forge.util.decode64(encrypted), 'RSA-OAEP', {
+         md: forge.md.sha256.create(),
+         mgf1: {
+             md: forge.md.sha256.create()
+         }
+     });*/
+
+    var decrypted = private.decrypt(encrypted);
+
+    document.getElementById("untexte6").innerHTML = decrypted;
+
+    //document.getElementById("untexte6").innerHTML = nouveau;
+
+    //send(message.address, message.port, chaine);
 
     recep();
 

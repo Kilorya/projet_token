@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Client TCP",
   "description": "On va voir ça",
   "version": "2.0",
