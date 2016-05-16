@@ -49,7 +49,7 @@ function send(laddress, leport, ledata){
 
 	chrome.sockets.tcp.create({}, function(createInfo) {
     MaSocket = createInfo.socketId;
-    
+    document.getElementById("untexte5").innerHTML = "Bonjour";
     chrome.sockets.tcp.connect(MaSocket,
     laddress, parseInt(leport, 10), function(){
 			chrome.sockets.tcp.send(MaSocket, str2ab(ledata), function(){

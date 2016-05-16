@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     chrome.tabs.getSelected(null, function(tab) {
 
-    document.write("YOLO");
+    document.write("Attente...");
 
     var Hurl = tab.url;
 
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     chrome.tabs.getSelected(null, function(tab) {
 
-    document.write("YOLO2");
+    document.write("Attente...");
 
     var Hurl = tab.url;
 
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
         cas: situation
     };
     
-    envoiapp(message, laserExtensionId);
+    envoiapp(message, AppID);
 
     });
 
@@ -108,7 +108,33 @@ function jattend()
 
       var blob = new Blob([message.blob], {type: message.filetype});
 
-      document.write(message.string);
+    document.write("<br>");
+    document.write(message.string);
+    document.write("<br>");
+    var temp = message.string.split("*");
+
+    if (temp[0] == "SAVE")
+    {
+      if(temp[1] == "DONE")
+        document.write("Sauvegarde reussie !");
+      else
+        document.write("Erreur durant la sauvegarde !");
+    }
+    else if(temp[0] == "GET")
+    {
+      if(temp[1] == "ERROR")
+        document.write("Erreur de recuperation !");
+      else
+      {
+        var decoupe = temp[1].split(";");
+        document.write("Login = " + decoupe[0]);
+        document.write("<br>");
+        var decoupesuite = decoupe[1].split("$");
+        document.write("Mot de passe = " + decoupesuite[0]);
+      }
+    }
+    else
+      document.write("Erreur : Serveur Java");
 
       sendResponse('Processed file');
     });
