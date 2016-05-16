@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "Mon extension",
-  "description": "Il envoi un username et un password",
+  "description": "Envoi les informations vers l'application",
   "version": "3.0",
 
   "browser_action": {

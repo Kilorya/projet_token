@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "Client TCP",
-  "description": "On va voir ça",
+  "name": "ClientJS",
+  "description": "Envoi les informations vers le Token",
   "version": "2.0",
 
   "app": {
